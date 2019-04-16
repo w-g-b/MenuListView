@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group >
+        <item
+            android:id="@+id/menu_apply"
+            android:icon="@mipmap/ic_all_order"
+            android:title="全部订单" />
+        <item
+            android:id="@+id/menu_order"
+            android:icon="@mipmap/ic_apply_info"
+            android:title="申报信息" />
+        <item
+            android:id="@+id/menu_me"
+            android:icon="@mipmap/ic_business_license"
+            android:title="营业执照" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/menu_password"
+            android:icon="@mipmap/ic_modify_pwd"
+            android:title="修改密码" />
+        <item
+            android:id="@+id/menu_phone"
+            android:icon="@mipmap/ic_modify_phone"
+            android:title="更换手机号" />
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@mipmap/ic_about_app"
+            android:title="关于应用" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/menu_update"
+            android:icon="@mipmap/ic_check_update"
+            android:title="检查更新" />
+    </group>
+</menu>
