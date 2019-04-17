@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ListMenu">
+        <attr name="activity" format="string" />
+    </declare-styleable>
+    <declare-styleable name="MenuListView">
+        <attr name="menu" format="reference" />
+        <attr name="mBorderStyle" format="enum">
+            <enum name="none" value="0" />
+            <enum name="left" value="1" />
+            <enum name="top" value="0x10" />
+            <enum name="right" value="0x100" />
+            <enum name="bottom" value="0x1000" />
+            <enum name="all" value="0x1111" />
+        </attr>
+        <attr name="mBorderThickness" format="dimension" />
+        <attr name="mBorderColor" format="color" />
+        <attr name="mItemClickable" format="boolean" />
+        <!--组与组之间的距离-->
+        <attr name="mGroupMargin" format="dimension" />
+        <attr name="mGroupMarginTop" format="dimension" />
+        <attr name="mGroupMarginBottom" format="dimension" />
+        <!--组内成员之间的距离-->
+        <attr name="mItemMargin" format="dimension" />
+        <attr name="mItemMarginTop" format="dimension" />
+        <attr name="mItemMarginBottom" format="dimension" />
+        <attr name="mUseRipple" format="boolean" />
+    </declare-styleable>
+</resources>

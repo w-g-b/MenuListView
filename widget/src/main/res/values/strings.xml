@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">widget</string>
-    <declare-styleable name="MenuListView">
-        <attr name="menu" format="reference" />
-    </declare-styleable>
 </resources>

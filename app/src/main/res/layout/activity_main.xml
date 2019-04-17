@@ -17,6 +17,8 @@
     <com.gb.widget.MenuListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:mBorderStyle="all"
+        app:mItemClickable="true"
         app:menu="@menu/me_btn_menu" />
 
 </LinearLayout>

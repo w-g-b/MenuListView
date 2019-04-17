@@ -3,14 +3,12 @@ package com.gb.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.MenuBuilder;
 
 /**
  * Create by wgb on 2019/4/16.
@@ -19,35 +17,35 @@ import androidx.appcompat.view.menu.MenuBuilder;
 public class MenuAdapter extends BaseAdapter {
     private int mResourceId;
     private Context mContext;
-    private MenuBuilder menu;
+    private SuperMenu menu;
+    private IMenuViewHolderFactory mMenuViewHolderFactory;
 
 
     public MenuAdapter(Context context, int menuId) {
-        this(context, menuId, R.layout.common_menu_item);
+        this(context, menuId, R.layout.common_menu_item, new CommonMenuViewHolder.MenuViewHolderFactory());
     }
 
-    public MenuAdapter(Context context, int menuId, int resourceId) {
+    public MenuAdapter(Context context, int menuId, int resourceId, IMenuViewHolderFactory menuViewHolderFactory) {
         mResourceId = resourceId;
-        menu = new MenuBuilder(context);
-        new MenuInflater(context).inflate(menuId, menu);
+        menu = new SuperMenu(context, menuId);
         mContext = context;
+        mMenuViewHolderFactory = menuViewHolderFactory;
     }
 
-    @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view;
-        MenuViewHolder holder;
+        IMenuViewHolder holder;
         if (convertView == null) {
             view = LayoutInflater.from(mContext).inflate(mResourceId, parent, false);
-            holder = new MenuViewHolder(view);
+            holder = mMenuViewHolderFactory.createMenuViewHolder(view);
             view.setTag(holder);
         } else {
             view = convertView;
-            holder = (MenuViewHolder) view.getTag();
+            holder = (BaseMenuViewHolder) view.getTag();
         }
-        holder.imageView.setImageDrawable(menu.getItem(position).getIcon());
-        holder.textView.setText(menu.getItem(position).getTitle());
+        holder.getImageView().setImageDrawable(menu.getItem(position).getIcon());
+        holder.getTextView().setText(menu.getItem(position).getTitle());
         return view;
     }
 
@@ -58,7 +56,7 @@ public class MenuAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public SuperMenuItem getItem(int position) {
         return menu.getItem(position);
     }
 

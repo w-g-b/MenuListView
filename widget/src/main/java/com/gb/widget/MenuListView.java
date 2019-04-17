@@ -1,12 +1,24 @@
 package com.gb.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.gb.widget.util.StringUtils;
+import com.gb.widget.util.Unit;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Create by wgb on 2019/4/16.
@@ -14,6 +26,26 @@ import android.widget.ListView;
 public class MenuListView extends ListView {
     private Context mContext;
     private int mMenuId;
+    private int mBorderStyle;
+    private int mBorderColor;
+    private int mBorderThickness;
+    private boolean mItemClickable;
+    private int mGroupMargin;
+    private int mGroupMarginTop;
+    private int mGroupMarginBottom;
+    private int mItemMargin;
+    private int mItemMarginTop;
+    private int mItemMarginBottom;
+    private boolean mUseRipple;
+
+    private float defaultBorderThickness = 0.5f;
+    private int defaultGroupMargin = 10;
+    private int defaultItemMargin = 0;
+    //    private int defaultBorderColor = 0xFFE8E8E8;//边框颜色
+    private int defaultBorderColor = 0xFFE8E8E8;//边框颜色
+
+    private Paint mBorderPaint;
+    private MenuAdapter mMenuAdapter;
 
     public MenuListView(Context context) {
         super(context);
@@ -28,23 +60,113 @@ public class MenuListView extends ListView {
         setDivider(null);
         setSelector(new ColorDrawable(Color.parseColor("#00ffffff")));
         mContext = context;
+        defaultBorderThickness = Unit.dp2px(mContext, defaultBorderThickness);
+        defaultGroupMargin = Unit.dp2px(mContext, defaultGroupMargin);
+        defaultItemMargin = Unit.dp2px(mContext, defaultItemMargin);
         initAttrs(attrs);
+        initPaint();
         initView();
     }
 
     private void initAttrs(AttributeSet attrs) {
         TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.MenuListView);
         mMenuId = ta.getResourceId(R.styleable.MenuListView_menu, 0);
+        mBorderColor = ta.getColor(R.styleable.MenuListView_mBorderColor, defaultBorderColor);
+        mBorderStyle = ta.getInt(R.styleable.MenuListView_mBorderStyle, 0);
+        mBorderThickness = ta.getDimensionPixelSize(R.styleable.MenuListView_mBorderThickness, (int) defaultBorderThickness);
+        mItemClickable = ta.getBoolean(R.styleable.MenuListView_mItemClickable, false);
+        mGroupMargin = ta.getDimensionPixelSize(R.styleable.MenuListView_mGroupMargin, defaultGroupMargin);
+        mGroupMarginTop = ta.getDimensionPixelSize(R.styleable.MenuListView_mGroupMarginTop, 0);
+        mGroupMarginBottom = ta.getDimensionPixelSize(R.styleable.MenuListView_mGroupMarginBottom, 0);
+        mItemMargin = ta.getDimensionPixelSize(R.styleable.MenuListView_mItemMargin, defaultItemMargin);
+        mItemMarginTop = ta.getDimensionPixelSize(R.styleable.MenuListView_mItemMarginTop, 0);
+        mItemMarginBottom = ta.getDimensionPixelSize(R.styleable.MenuListView_mItemMarginBottom, 0);
+        mUseRipple = ta.getBoolean(R.styleable.MenuListView_mUseRipple, true);
         ta.recycle();
     }
 
+    @Override
+    public boolean performItemClick(View view, int position, long id) {
+        if (mItemClickable && !StringUtils.isEmpty(mMenuAdapter.getItem(position).getDes())) {
+            Class clazz = null;
+            try {
+                clazz = Class.forName(mMenuAdapter.getItem(position).getDes());
+                mContext.startActivity(new Intent(mContext, clazz));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return super.performItemClick(view, position, id);
+
+    }
+
+
     private void initView() {
-        MenuAdapter menuAdapter = new MenuAdapter(mContext, mMenuId);
-        setAdapter(menuAdapter);
+        if (mMenuId != 0) {
+            mMenuAdapter = new MenuAdapter(mContext, mMenuId);
+            setAdapter(mMenuAdapter);
+        }
+    }
+
+    private void initPaint() {
+        mBorderPaint = new Paint();
+        mBorderPaint.setColor(mBorderColor);
+        mBorderPaint.setAntiAlias(true);
+        mBorderPaint.setStrokeWidth(mBorderThickness);
     }
 
     @Override
-    public void setAdapter(ListAdapter adapter) {
-        super.setAdapter(adapter);
+    public void setAdapter(ListAdapter listAdapter) {
+        final MenuAdapter adapter = listAdapter instanceof MenuAdapter ? (MenuAdapter) listAdapter : null;
+        MenuAdapterProxy proxy = new MenuAdapterProxy(adapter) {
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                if (convertView != null) {
+                    adapter.getView(position, ((ViewGroup) convertView).getChildAt(0), parent);
+                } else {
+                    View view = adapter.getView(position, convertView, parent);
+
+                    BorderLinearLayout layout = new BorderLinearLayout(mContext);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    int itemMarginTop = mItemMarginTop;
+                    int itemMarginBottom = mItemMarginBottom;
+                    if (mItemMarginTop == 0) {
+                        itemMarginTop = mItemMargin;
+                    }
+                    if (mItemMarginBottom == 0) {
+                        itemMarginBottom = mItemMargin;
+                    }
+                    int currGroupId = adapter.getItem(position).getGroupId();
+                    int prevGroupId = position - 1 >= 0 ? getItem(position - 1).getGroupId() : currGroupId;
+                    int lastGroupId = position + 1 < getCount() ? getItem(position + 1).getGroupId() : currGroupId;
+                    if (currGroupId != prevGroupId) {
+                        itemMarginTop += mGroupMarginTop == 0 ? mGroupMargin : mGroupMarginTop;
+                    }
+                    if (currGroupId != lastGroupId) {
+                        itemMarginBottom += mGroupMarginBottom == 0 ? mGroupMargin : mGroupMarginBottom;
+                    }
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(0, itemMarginTop, 0, itemMarginBottom);
+                    layout.setBorder(mBorderStyle, mBorderPaint, itemMarginTop, itemMarginBottom);
+                    if (mUseRipple) {
+                        view.setBackgroundResource(R.drawable.selector_white);
+                    }
+                    layout.addView(view, params);
+                    convertView = layout;
+                }
+                return convertView;
+            }
+        };
+        super.setAdapter(proxy);
+    }
+
+    //TODO
+    public void setMenuById(int menuId) {
+
+    }
+
+    //TODO
+    public void setMenu(Menu menu) {
+
     }
 }
