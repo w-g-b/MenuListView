@@ -16,6 +16,9 @@ import android.widget.ListView;
 import com.gb.widget.util.StringUtils;
 import com.gb.widget.util.Unit;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -112,7 +115,7 @@ public class MenuListView extends ListView {
                 if (convertView != null) {
                     adapter.getView(position, ((ViewGroup) convertView).getChildAt(0), parent);
                 } else {
-                    View view = adapter.getView(position, convertView, parent);
+                    final View view = adapter.getView(position, convertView, parent);
 
                     BorderLinearLayout layout = new BorderLinearLayout(mContext);
                     layout.setOrientation(LinearLayout.VERTICAL);
@@ -125,7 +128,7 @@ public class MenuListView extends ListView {
                         itemMarginBottom = mItemMargin;
                     }
                     int currGroupId = adapter.getItem(position).getGroupId();
-                    int prevGroupId = position - 1 >= 0 ? getItem(position - 1).getGroupId() : currGroupId;
+                    final int prevGroupId = position - 1 >= 0 ? getItem(position - 1).getGroupId() : currGroupId;
                     int lastGroupId = position + 1 < getCount() ? getItem(position + 1).getGroupId() : currGroupId;
                     if (currGroupId != prevGroupId) {
                         itemMarginTop += mGroupMarginTop == 0 ? mGroupMargin : mGroupMarginTop;
@@ -141,15 +144,45 @@ public class MenuListView extends ListView {
                         view.setClickable(true);
                         view.setBackgroundResource(R.drawable.selector_white);
                         view.setOnClickListener(new OnClickListener() {
+                            private Method mHandler;
+
                             @Override
                             public void onClick(View v) {
-                                if (mItemClickable && !StringUtils.isEmpty(mMenuAdapter.getItem(position).getDes())) {
-                                    Class clazz = null;
-                                    try {
-                                        clazz = Class.forName(mMenuAdapter.getItem(position).getDes());
-                                        mContext.startActivity(new Intent(mContext, clazz));
-                                    } catch (ClassNotFoundException e) {
-                                        e.printStackTrace();
+                                if (mItemClickable) {
+                                    if (!StringUtils.isEmpty(mMenuAdapter.getItem(position).getDes())) {
+                                        Class clazz = null;
+                                        try {
+                                            clazz = Class.forName(mMenuAdapter.getItem(position).getDes());
+                                            mContext.startActivity(new Intent(mContext, clazz));
+                                        } catch (ClassNotFoundException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    String handlerName = mMenuAdapter.getItem(position).getOnClickFunc();
+                                    if (!StringUtils.isEmpty(handlerName)) {
+                                        if (mHandler == null) {
+                                            try {
+                                                mHandler = getContext().getClass().getMethod(handlerName, View.class);
+                                            } catch (NoSuchMethodException e) {
+                                                int id = getId();
+                                                String idText = id == NO_ID ? "" : " with id '"
+                                                        + getContext().getResources().getResourceEntryName(
+                                                        id) + "'";
+                                                throw new IllegalStateException("Could not find a method " +
+                                                        handlerName + "(View) in the activity "
+                                                        + getContext().getClass() + " for onClick handler"
+                                                        + " on view " + View.class + idText, e);
+                                            }
+                                        }
+                                        try {
+                                            mHandler.invoke(getContext(), view);
+                                        } catch (IllegalAccessException e) {
+                                            throw new IllegalStateException("Could not execute non "
+                                                    + "public method of the activity", e);
+                                        } catch (InvocationTargetException e) {
+                                            throw new IllegalStateException("Could not execute "
+                                                    + "method of the activity", e);
+                                        }
                                     }
                                 }
                             }
@@ -164,10 +197,8 @@ public class MenuListView extends ListView {
         super.setAdapter(proxy);
     }
 
-    //TODO
     public void setMenuById(int menuId) {
         mMenuAdapter = new MenuAdapter(mContext, menuId);
         setAdapter(mMenuAdapter);
     }
-
 }

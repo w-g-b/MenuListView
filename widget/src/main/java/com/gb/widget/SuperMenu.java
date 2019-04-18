@@ -44,7 +44,8 @@ public class SuperMenu {
                     case XmlPullParser.START_TAG: {
                         if (parser.getName().equals("item")) {
                             SuperMenuItem item = new SuperMenuItem(mMenu.getItem(count));
-                            item.setDes(parser.getAttributeValue(XMLConstants.RES_AUTO_NS, "activity"));
+                            item.setDes(parser.getAttributeValue(XMLConstants.RES_AUTO_NS, "mActivity"));
+                            item.setOnClickFunc(parser.getAttributeValue(XMLConstants.RES_AUTO_NS, "mOnClick"));
                             items.add(item);
                         }
                     }

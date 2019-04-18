@@ -9,6 +9,8 @@ import android.view.MenuItem;
 public class SuperMenuItem {
     private MenuItem mMenuItem;
     private String des;
+    private String onClickFunc;
+
 
     public String getDes() {
         return des;
@@ -44,5 +46,13 @@ public class SuperMenuItem {
 
     public int getItemId() {
         return mMenuItem.getItemId();
+    }
+
+    public String getOnClickFunc() {
+        return onClickFunc;
+    }
+
+    public void setOnClickFunc(String onClickFunc) {
+        this.onClickFunc = onClickFunc;
     }
 }

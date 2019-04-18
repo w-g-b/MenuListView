@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ListMenu">
-        <attr name="activity" format="string" />
+    <declare-styleable name="SuperMenu">
+        <attr name="mActivity" format="string" />
+        <attr name="mOnClick" format="string" />
     </declare-styleable>
     <declare-styleable name="MenuListView">
         <attr name="menu" format="reference" />

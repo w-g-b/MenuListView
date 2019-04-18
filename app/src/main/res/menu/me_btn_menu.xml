@@ -6,24 +6,24 @@
             android:id="@+id/menu_apply"
             android:icon="@mipmap/ic_all_order"
             android:title="全部订单"
-            app:activity="com.gb.menulistview.Test2Activity" />
+            app:mActivity="com.gb.menulistview.Test2Activity" />
         <item
             android:id="@+id/menu_order"
             android:icon="@mipmap/ic_apply_info"
             android:title="申报信息"
-            app:activity="com.gb.menulistview.TestActivity" />
+            app:mActivity="com.gb.menulistview.TestActivity" />
         <item
             android:id="@+id/menu_me"
             android:icon="@mipmap/ic_business_license"
             android:title="营业执照"
-            app:activity="com.gb.menulistview.TestActivity" />
+            app:mActivity="com.gb.menulistview.TestActivity" />
     </group>
     <group android:id="@+id/bbb">
         <item
             android:id="@+id/menu_password"
             android:icon="@mipmap/ic_modify_pwd"
             android:title="修改密码"
-            app:activity="com.gb.menulistview.Test2Activity" />
+            app:mActivity="com.gb.menulistview.Test2Activity" />
         <item
             android:id="@+id/menu_phone"
             android:icon="@mipmap/ic_modify_phone"
@@ -37,14 +37,17 @@
         <item
             android:id="@+id/menu_update"
             android:icon="@mipmap/ic_check_update"
-            android:title="检查更新" />
+            android:title="检查更新"
+            app:mOnClick="test" />
         <item
             android:id="@+id/menu_update1"
             android:icon="@mipmap/ic_check_update"
-            android:title="检查更新" />
+            android:title="检查更新"
+            app:mOnClick="hello"/>
         <item
             android:id="@+id/menu_update2"
             android:icon="@mipmap/ic_check_update"
-            android:title="检查更新" />
+            android:title="检查更新"
+            app:mOnClick="helloWorld"/>
     </group>
 </menu>

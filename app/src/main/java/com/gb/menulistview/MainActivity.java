@@ -1,6 +1,7 @@
 package com.gb.menulistview;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,5 +19,19 @@ public class MainActivity extends AppCompatActivity {
 
 //        MenuAdapter menuAdapter = new MenuAdapter(this, R.menu.me_btn_menu);
 //        listView.setAdapter(menuAdapter);
+    }
+
+    public void helloWorld(View view) {
+        System.out.println(view);
+        System.out.println("HelloWorld");
+    }
+
+    public void hello(View view) {
+        System.out.println("Hello");
+    }
+
+    public void test(View view) {
+        System.out.println("test");
+        System.out.println("=====" + view + "=======");
     }
 }
