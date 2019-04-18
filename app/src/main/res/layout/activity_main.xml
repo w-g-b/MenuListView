@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@drawable/selector_white"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center">-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@mipmap/ic_about_app" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="HelloWorld"-->
+    <!--android:textSize="30sp" />-->
+    <!--</LinearLayout>-->
 
     <!--    <ListView
             android:id="@+id/listView"
@@ -15,10 +34,12 @@
             android:divider="@null"
             android:listSelector="#00000000" />-->
     <com.gb.widget.MenuListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         app:mBorderStyle="all"
+        app:mGroupMargin="30dp"
         app:mItemClickable="true"
-        app:menu="@menu/me_btn_menu" />
+        app:mItemMargin="5dp"
+        app:menu="@menu/me_btn_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

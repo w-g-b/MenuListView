@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -87,19 +86,8 @@ public class MenuListView extends ListView {
 
     @Override
     public boolean performItemClick(View view, int position, long id) {
-        if (mItemClickable && !StringUtils.isEmpty(mMenuAdapter.getItem(position).getDes())) {
-            Class clazz = null;
-            try {
-                clazz = Class.forName(mMenuAdapter.getItem(position).getDes());
-                mContext.startActivity(new Intent(mContext, clazz));
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
         return super.performItemClick(view, position, id);
-
     }
-
 
     private void initView() {
         if (mMenuId != 0) {
@@ -120,7 +108,7 @@ public class MenuListView extends ListView {
         final MenuAdapter adapter = listAdapter instanceof MenuAdapter ? (MenuAdapter) listAdapter : null;
         MenuAdapterProxy proxy = new MenuAdapterProxy(adapter) {
             @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 if (convertView != null) {
                     adapter.getView(position, ((ViewGroup) convertView).getChildAt(0), parent);
                 } else {
@@ -149,7 +137,23 @@ public class MenuListView extends ListView {
                     params.setMargins(0, itemMarginTop, 0, itemMarginBottom);
                     layout.setBorder(mBorderStyle, mBorderPaint, itemMarginTop, itemMarginBottom);
                     if (mUseRipple) {
+                        //flag: solve the problem that click the blank border and the item take effect!
+                        view.setClickable(true);
                         view.setBackgroundResource(R.drawable.selector_white);
+                        view.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (mItemClickable && !StringUtils.isEmpty(mMenuAdapter.getItem(position).getDes())) {
+                                    Class clazz = null;
+                                    try {
+                                        clazz = Class.forName(mMenuAdapter.getItem(position).getDes());
+                                        mContext.startActivity(new Intent(mContext, clazz));
+                                    } catch (ClassNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
                     }
                     layout.addView(view, params);
                     convertView = layout;
@@ -162,11 +166,8 @@ public class MenuListView extends ListView {
 
     //TODO
     public void setMenuById(int menuId) {
-
+        mMenuAdapter = new MenuAdapter(mContext, menuId);
+        setAdapter(mMenuAdapter);
     }
 
-    //TODO
-    public void setMenu(Menu menu) {
-
-    }
 }
