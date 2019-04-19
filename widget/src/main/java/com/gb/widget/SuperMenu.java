@@ -33,7 +33,6 @@ public class SuperMenu {
 
     private ArrayList<SuperMenuItem> inflate(int menuRes) {
         ArrayList<SuperMenuItem> items = new ArrayList<>();
-        //TODO menu解析
         try {
             XmlResourceParser parser = mContext.getResources().getLayout(menuRes);
             int eventType = parser.getEventType();

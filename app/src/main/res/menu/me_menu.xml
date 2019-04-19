@@ -43,11 +43,11 @@
             android:id="@+id/menu_update1"
             android:icon="@mipmap/ic_check_update"
             android:title="检查更新"
-            app:mOnClick="hello"/>
+            app:mOnClick="hello" />
         <item
             android:id="@+id/menu_update2"
             android:icon="@mipmap/ic_check_update"
             android:title="检查更新"
-            app:mOnClick="helloWorld"/>
+            app:mOnClick="helloWorld" />
     </group>
 </menu>

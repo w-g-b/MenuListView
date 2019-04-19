@@ -37,11 +37,16 @@
 
     <com.gb.widget.MenuListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:mBorderStyle="all"
-        app:mGroupMargin="30dp"
+        app:mGroupMargin="10dp"
         app:mItemClickable="true"
-        app:mItemMargin="5dp"
-        app:menu="@menu/me_btn_menu" />
+        app:menu="@menu/me_menu" />
 
+    <Button
+        android:id="@+id/custom_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自定义Menu布局" />
 </LinearLayout>

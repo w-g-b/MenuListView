@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomActivity">
+
+    <com.gb.widget.MenuListView
+        android:id="@+id/custom_menu_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mBorderStyle="all"
+        app:mItemClickable="true" />
+</LinearLayout>

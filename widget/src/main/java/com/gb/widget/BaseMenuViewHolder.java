@@ -1,6 +1,5 @@
 package com.gb.widget;
 
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,14 +9,10 @@ import android.widget.TextView;
  * 并且在重写传入View的构造方法，在构造方法中实例化imageView和textView
  */
 
-public class BaseMenuViewHolder implements IMenuViewHolder {
+public abstract class BaseMenuViewHolder implements IMenuViewHolder {
     protected ImageView imageView;
     protected TextView textView;
 
-    private BaseMenuViewHolder(View view) {
-        imageView = view.findViewById(R.id.icon);
-        textView = view.findViewById(R.id.text);
-    }
 
     protected BaseMenuViewHolder() {
 
@@ -32,15 +27,6 @@ public class BaseMenuViewHolder implements IMenuViewHolder {
     public ImageView getImageView() {
         return imageView;
     }
-
-    static class MenuViewHolderFactory implements IMenuViewHolderFactory {
-        public MenuViewHolderFactory() {
-
-        }
-
-        public IMenuViewHolder createMenuViewHolder(View view) {
-            return new BaseMenuViewHolder(view);
-        }
-    }
-
 }
+
+

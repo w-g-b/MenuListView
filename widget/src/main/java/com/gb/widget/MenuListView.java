@@ -108,14 +108,22 @@ public class MenuListView extends ListView {
 
     @Override
     public void setAdapter(ListAdapter listAdapter) {
-        final MenuAdapter adapter = listAdapter instanceof MenuAdapter ? (MenuAdapter) listAdapter : null;
-        MenuAdapterProxy proxy = new MenuAdapterProxy(adapter) {
+        if (listAdapter == null) {
+            return;
+        }
+        if (listAdapter instanceof MenuAdapter) {
+            mMenuAdapter = (MenuAdapter) listAdapter;
+        } else {
+            mMenuAdapter = null;
+            setAdapter(listAdapter);
+        }
+        MenuAdapterProxy proxy = new MenuAdapterProxy(mMenuAdapter) {
             @Override
             public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 if (convertView != null) {
-                    adapter.getView(position, ((ViewGroup) convertView).getChildAt(0), parent);
+                    mMenuAdapter.getView(position, ((ViewGroup) convertView).getChildAt(0), parent);
                 } else {
-                    final View view = adapter.getView(position, convertView, parent);
+                    final View view = mMenuAdapter.getView(position, convertView, parent);
 
                     BorderLinearLayout layout = new BorderLinearLayout(mContext);
                     layout.setOrientation(LinearLayout.VERTICAL);
@@ -127,7 +135,7 @@ public class MenuListView extends ListView {
                     if (mItemMarginBottom == 0) {
                         itemMarginBottom = mItemMargin;
                     }
-                    int currGroupId = adapter.getItem(position).getGroupId();
+                    int currGroupId = mMenuAdapter.getItem(position).getGroupId();
                     final int prevGroupId = position - 1 >= 0 ? getItem(position - 1).getGroupId() : currGroupId;
                     int lastGroupId = position + 1 < getCount() ? getItem(position + 1).getGroupId() : currGroupId;
                     if (currGroupId != prevGroupId) {
@@ -143,6 +151,7 @@ public class MenuListView extends ListView {
                         //flag: solve the problem that click the blank border and the item take effect!
                         view.setClickable(true);
                         view.setBackgroundResource(R.drawable.selector_white);
+                        //flag: add the view's click event
                         view.setOnClickListener(new OnClickListener() {
                             private Method mHandler;
 

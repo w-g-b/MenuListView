@@ -27,9 +27,9 @@ public class MenuAdapter extends BaseAdapter {
 
     public MenuAdapter(Context context, int menuId, int resourceId, IMenuViewHolderFactory menuViewHolderFactory) {
         mResourceId = resourceId;
+        mMenuViewHolderFactory = menuViewHolderFactory;
         menu = new SuperMenu(context, menuId);
         mContext = context;
-        mMenuViewHolderFactory = menuViewHolderFactory;
     }
 
     @Override
