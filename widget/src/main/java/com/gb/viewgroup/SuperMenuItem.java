@@ -1,4 +1,4 @@
-package com.gb.widget;
+package com.gb.viewgroup;
 
 import android.graphics.drawable.Drawable;
 import android.view.MenuItem;

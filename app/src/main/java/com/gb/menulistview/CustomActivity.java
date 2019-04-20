@@ -3,8 +3,8 @@ package com.gb.menulistview;
 import android.os.Bundle;
 import android.view.View;
 
-import com.gb.widget.MenuAdapter;
-import com.gb.widget.MenuListView;
+import com.gb.viewgroup.MenuAdapter;
+import com.gb.viewgroup.MenuListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 

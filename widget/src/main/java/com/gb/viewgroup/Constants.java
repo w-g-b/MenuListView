@@ -1,4 +1,4 @@
-package com.gb.widget;
+package com.gb.viewgroup;
 
 /**
  * Create by wgb on 2019/4/17.

@@ -1,4 +1,4 @@
-package com.gb.widget.util;
+package com.gb.viewgroup.util;
 
 import android.content.Context;
 

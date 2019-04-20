@@ -1,11 +1,11 @@
-package com.gb.widget;
+package com.gb.viewgroup;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.view.MenuInflater;
 
-import com.gb.widget.constant.XMLConstants;
+import com.gb.viewgroup.constant.XMLConstants;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

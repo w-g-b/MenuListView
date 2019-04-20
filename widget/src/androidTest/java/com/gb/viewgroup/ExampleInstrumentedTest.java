@@ -1,4 +1,4 @@
-package com.gb.widget;
+package com.gb.viewgroup;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

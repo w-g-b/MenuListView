@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".CustomActivity">
 
-    <com.gb.widget.MenuListView
+    <com.gb.viewgroup.MenuListView
         android:id="@+id/custom_menu_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

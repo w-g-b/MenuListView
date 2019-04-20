@@ -1,4 +1,4 @@
-package com.gb.widget;
+package com.gb.viewgroup;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

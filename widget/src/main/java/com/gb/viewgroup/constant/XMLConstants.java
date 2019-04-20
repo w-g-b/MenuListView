@@ -1,4 +1,4 @@
-package com.gb.widget.constant;
+package com.gb.viewgroup.constant;
 
 /**
  * Create by wgb on 2019/4/12.

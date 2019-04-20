@@ -2,9 +2,9 @@ package com.gb.menulistview;
 
 import android.view.View;
 
-import com.gb.widget.BaseMenuViewHolder;
-import com.gb.widget.IMenuViewHolder;
-import com.gb.widget.IMenuViewHolderFactory;
+import com.gb.viewgroup.BaseMenuViewHolder;
+import com.gb.viewgroup.IMenuViewHolder;
+import com.gb.viewgroup.IMenuViewHolderFactory;
 
 public final class CustomMenuViewHolder extends BaseMenuViewHolder {
     private CustomMenuViewHolder(View view) {

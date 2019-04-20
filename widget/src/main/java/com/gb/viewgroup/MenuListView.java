@@ -1,4 +1,4 @@
-package com.gb.widget;
+package com.gb.viewgroup;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.gb.widget.util.StringUtils;
-import com.gb.widget.util.Unit;
+import com.gb.viewgroup.util.StringUtils;
+import com.gb.viewgroup.util.Unit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
